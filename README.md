@@ -83,38 +83,29 @@ Pastikan Node.js dan npm sudah terpasang di komputer serta tersedia project Supa
 
 ### Langkah Instalasi
 
-**1. Clone repository**
-
-```bash
-git clone https://github.com/USERNAME/library-api.git
-cd library-api
-```
-
-Ganti URL tersebut dengan URL repository GitHub proyek yang sebenarnya.
-
-**2. Instal dependensi**
+**1. Instal dependensi**
 
 ```bash
 npm install
 ```
 
-**3. Konfigurasi environment variables**
+**2. Konfigurasi environment variables**
 
 Buat file `.env` pada direktori utama proyek.
 
 ```env
 SUPABASE_URL=https://YOUR_PROJECT_REF.supabase.co
-SUPABASE_SERVICE_ROLE_KEY=YOUR_SERVER_SECRET_KEY
+SUPABASE_KEY=anon Public Key
 PORT=3000
 ```
 
 Sesuaikan nilai tersebut dengan konfigurasi Supabase milik kamu. Jangan mengunggah file `.env` ke GitHub.
 
-**4. Siapkan database**
+**3. Siapkan database**
 
 Buka SQL Editor pada dashboard Supabase, kemudian jalankan SQL untuk membuat tabel `books`, `members`, dan `loans`, function peminjaman dan pengembalian, serta data awal jika diperlukan.
 
-**5. Jalankan aplikasi**
+**4. Jalankan aplikasi**
 
 Mode development:
 
