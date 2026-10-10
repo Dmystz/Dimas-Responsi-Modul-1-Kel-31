@@ -50,36 +50,9 @@ REST API sederhana untuk pencatatan peminjaman buku perpustakaan menggunakan Nod
 5. Jalankan `npm run dev`.
 6. Buka `http://localhost:3000`.
 
-## Contoh Request
+## Contoh Request dan Response
 
-POST /loans
-
-```json
-{
-  "member_name": "Andi",
-  "book_title": "Laskar Pelangi",
-  "loan_date": "2026-10-10",
-  "due_date": "2026-10-17",
-  "status": "Dipinjam"
-}
-```
-
-Contoh response:
-
-```json
-{
-  "message": "Peminjaman berhasil ditambahkan",
-  "data": {
-    "id": 1,
-    "member_name": "Andi",
-    "book_title": "Laskar Pelangi",
-    "loan_date": "2026-10-10",
-    "due_date": "2026-10-17",
-    "return_date": null,
-    "status": "Dipinjam"
-  }
-}
-```
+<img width="1258" height="690" alt="image" src="https://github.com/user-attachments/assets/6a68dc6d-f017-4ad4-bed4-ba2760cc3863" />
 
 ## Deployment
 
