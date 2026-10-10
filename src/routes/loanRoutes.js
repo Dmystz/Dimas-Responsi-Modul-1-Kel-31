@@ -1,18 +1,15 @@
-import express from 'express';
-
+import { Router } from 'express';
 import {
-    getLoans,
-    getLoan,
-    addLoan,
-    editLoan,
-    removeLoan
+    listLoans, getLoan, addLoan,
+    editLoan, returnBook, removeLoan
 } from '../controllers/loanController.js';
 
-const router = express.Router();
+const router = Router();
 
-router.get('/', getLoans);
-router.get('/:id', getLoan);
+router.get('/', listLoans);
 router.post('/', addLoan);
+router.patch('/:id/return', returnBook);
+router.get('/:id', getLoan);
 router.put('/:id', editLoan);
 router.delete('/:id', removeLoan);
 
