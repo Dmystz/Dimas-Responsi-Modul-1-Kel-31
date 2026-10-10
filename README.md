@@ -1,242 +1,98 @@
 # REST API Perpustakaan
 
-REST API untuk mengelola sistem perpustakaan yang mencakup katalog buku, data anggota, peminjaman, dan pengembalian buku. API dibangun menggunakan **Node.js** dan **Express.js**, dengan **Supabase PostgreSQL** sebagai database serta **Vercel** sebagai platform deployment.
+## 1. Deskripsi Umum dan Tujuan Proyek
 
-## Fitur Utama
+REST API Perpustakaan merupakan aplikasi backend yang dikembangkan menggunakan Node.js, Express.js, dan Supabase sebagai database. Proyek ini bertujuan untuk mengelola data buku, anggota perpustakaan, serta transaksi peminjaman dan pengembalian buku melalui REST API.
 
-- **Manajemen Buku:** Menambahkan, melihat, mencari, mengubah, dan menghapus data buku.
-- **Manajemen Anggota:** Mengelola data anggota perpustakaan.
-- **Peminjaman Buku:** Mencatat transaksi peminjaman dan memvalidasi ketersediaan stok.
-- **Pengembalian Buku:** Mencatat pengembalian dan memperbarui stok buku secara otomatis.
-- **Status Peminjaman:** Mendukung status `Dipinjam`, `Dikembalikan`, dan `Terlambat`.
-- **Filter Data:** Memfilter peminjaman berdasarkan status dan anggota.
-- **Pencarian dan Pagination:** Mendukung pencarian buku serta pengambilan data per halaman.
-- **Dashboard:** Menampilkan ringkasan data buku, anggota, dan peminjaman.
+API menyediakan fitur CRUD (*Create, Read, Update, Delete*) untuk data buku dan anggota, pencatatan peminjaman, pengembalian buku, pencarian data, serta filter peminjaman berdasarkan status. Sistem juga memperbarui stok buku secara otomatis ketika buku dipinjam atau dikembalikan.
 
-## Teknologi yang Digunakan
+### Teknologi yang Digunakan
 
-- Node.js
-- Express.js
-- Supabase PostgreSQL
-- Supabase JavaScript Client
-- Vercel
-- Git dan GitHub
+- **Node.js:** Menjalankan aplikasi backend.
+- **Express.js:** Mengelola routing dan HTTP request.
+- **Supabase PostgreSQL:** Menyimpan dan mengelola data.
+- **Vercel:** Melakukan deployment API.
+- **GitHub:** Menyimpan source code proyek.
 
-## Struktur Project
-
-```text
-library-api/
-├── src/
-│   ├── config/
-│   │   └── supabaseClient.js
-│   ├── controllers/
-│   │   ├── bookController.js
-│   │   ├── memberController.js
-│   │   ├── loanController.js
-│   │   └── dashboardController.js
-│   ├── models/
-│   │   ├── bookModel.js
-│   │   ├── memberModel.js
-│   │   ├── loanModel.js
-│   │   └── dashboardModel.js
-│   ├── routes/
-│   │   ├── bookRoutes.js
-│   │   ├── memberRoutes.js
-│   │   ├── loanRoutes.js
-│   │   └── dashboardRoutes.js
-│   └── index.js
-├── .env
-├── .gitignore
-├── package.json
-├── vercel.json
-└── README.md
-```
-
-## Database
+## 2. Struktur Data / Schema Database
 
 Database menggunakan Supabase PostgreSQL dengan tiga tabel utama.
 
-### 1. Tabel `books`
+### Tabel `books`
 
-| Kolom | Keterangan |
-|---|---|
-| `id` | Primary key buku |
-| `title` | Judul buku |
-| `author` | Nama penulis |
-| `isbn` | Nomor ISBN unik |
-| `category` | Kategori buku |
-| `publisher` | Nama penerbit |
-| `published_year` | Tahun terbit |
-| `total_stock` | Stok buku yang tersedia |
-| `created_at` | Waktu data dibuat |
-
-### 2. Tabel `members`
-
-| Kolom | Keterangan |
-|---|---|
-| `id` | Primary key anggota |
-| `name` | Nama anggota |
-| `email` | Email anggota yang unik |
-| `phone` | Nomor telepon |
-| `created_at` | Waktu data dibuat |
-
-### 3. Tabel `loans`
-
-| Kolom | Keterangan |
-|---|---|
-| `id` | Primary key peminjaman |
-| `member_id` | Foreign key ke tabel `members` |
-| `book_id` | Foreign key ke tabel `books` |
-| `loan_date` | Tanggal peminjaman |
-| `due_date` | Batas waktu pengembalian |
-| `return_date` | Tanggal pengembalian |
-| `status` | Status peminjaman |
-| `created_at` | Waktu data dibuat |
-
-Relasi database menghubungkan anggota dengan transaksi peminjaman serta buku dengan transaksi peminjaman. Function PostgreSQL `borrow_book` dan `return_book` digunakan untuk mengelola transaksi sekaligus memperbarui stok buku.
-
-## Instalasi dan Konfigurasi
-
-### 1. Clone Repository
-
-```bash
-git clone https://github.com/USERNAME/library-api.git
-cd library-api
-```
-
-Ganti `USERNAME/library-api` dengan alamat repository GitHub yang digunakan.
-
-### 2. Instal Dependensi
-
-```bash
-npm install
-```
-
-### 3. Konfigurasi Environment Variables
-
-Buat file `.env` di direktori utama project.
-
-```env
-SUPABASE_URL=https://YOUR_PROJECT_REF.supabase.co
-SUPABASE_SERVICE_ROLE_KEY=YOUR_SERVER_SECRET_KEY
-PORT=3000
-```
-
-Sesuaikan nilai environment variables dengan konfigurasi project Supabase. Gunakan key server yang sesuai dengan konfigurasi Supabase kamu.
-
-**Penting:** Jangan mengunggah file `.env` atau secret key ke repository GitHub publik.
-
-### 4. Siapkan Database Supabase
-
-1. Buka dashboard Supabase.
-2. Pilih project database yang digunakan.
-3. Buka menu **SQL Editor**.
-4. Jalankan SQL untuk membuat tabel `books`, `members`, dan `loans`.
-5. Buat function `borrow_book` dan `return_book`.
-6. Masukkan data awal buku dan anggota jika diperlukan.
-
-### 5. Jalankan API
-
-Mode development:
-
-```bash
-npm run dev
-```
-
-Mode biasa:
-
-```bash
-npm start
-```
-
-Jika server berjalan pada port 3000, API lokal dapat diakses melalui:
-
-```text
-http://localhost:3000
-```
-
-## Dokumentasi Endpoint
-
-Base URL lokal:
-
-```text
-http://localhost:3000
-```
-
-### Informasi API
-
-| Method | Endpoint | Keterangan |
+| Kolom | Tipe Data | Keterangan |
 |---|---|---|
-| GET | `/` | Informasi API |
+| `id` | BIGINT | Primary key |
+| `title` | VARCHAR | Judul buku |
+| `author` | VARCHAR | Penulis buku |
+| `isbn` | VARCHAR | ISBN unik buku |
+| `category` | VARCHAR | Kategori buku |
+| `publisher` | VARCHAR | Penerbit |
+| `published_year` | INTEGER | Tahun terbit |
+| `total_stock` | INTEGER | Stok buku tersedia |
+| `created_at` | TIMESTAMPTZ | Waktu pembuatan data |
 
-### Books
+### Tabel `members`
 
-| Method | Endpoint | Keterangan |
+| Kolom | Tipe Data | Keterangan |
 |---|---|---|
-| GET | `/books` | Mendapatkan daftar buku |
-| GET | `/books/:id` | Mendapatkan detail buku |
-| POST | `/books` | Menambahkan buku |
-| PUT | `/books/:id` | Mengubah data buku |
-| DELETE | `/books/:id` | Menghapus buku |
+| `id` | BIGINT | Primary key |
+| `name` | VARCHAR | Nama anggota |
+| `email` | VARCHAR | Email unik anggota |
+| `phone` | VARCHAR | Nomor telepon |
+| `created_at` | TIMESTAMPTZ | Waktu pembuatan data |
 
-Parameter query yang tersedia untuk daftar buku:
+### Tabel `loans`
 
-- `search`: mencari buku berdasarkan judul.
-- `category`: memfilter kategori.
-- `page`: nomor halaman.
-- `limit`: jumlah data per halaman.
+| Kolom | Tipe Data | Keterangan |
+|---|---|---|
+| `id` | BIGINT | Primary key |
+| `member_id` | BIGINT | Foreign key ke `members.id` |
+| `book_id` | BIGINT | Foreign key ke `books.id` |
+| `loan_date` | DATE | Tanggal peminjaman |
+| `due_date` | DATE | Tanggal jatuh tempo |
+| `return_date` | DATE | Tanggal pengembalian |
+| `status` | VARCHAR | Status peminjaman |
+| `created_at` | TIMESTAMPTZ | Waktu pembuatan data |
 
-Contoh:
+Relasi database menghubungkan tabel `members` dan `books` dengan tabel `loans` melalui foreign key. Status peminjaman terdiri dari `Dipinjam`, `Dikembalikan`, dan `Terlambat`.
+
+## 3. Contoh Request dan Response
+
+### A. Mendapatkan Daftar Buku
+
+**Request**
 
 ```http
-GET /books?search=Atomic&page=1&limit=10
+GET /books
 ```
 
-Contoh request untuk menambahkan buku:
+**Contoh Response**
 
 ```json
 {
-  "title": "Pemrograman Web",
-  "author": "Budi Santoso",
-  "isbn": "9781234567890",
-  "category": "Teknologi",
-  "publisher": "Penerbit Informatika",
-  "published_year": 2025,
-  "total_stock": 5
+  "data": [
+    {
+      "id": 1,
+      "title": "Laskar Pelangi",
+      "author": "Andrea Hirata",
+      "category": "Novel",
+      "total_stock": 5
+    }
+  ]
 }
 ```
 
-### Members
+### B. Membuat Peminjaman Buku
 
-| Method | Endpoint | Keterangan |
-|---|---|---|
-| GET | `/members` | Mendapatkan daftar anggota |
-| GET | `/members/:id` | Mendapatkan detail anggota |
-| POST | `/members` | Menambahkan anggota |
-| GET | `/members/:id/loans` | Melihat riwayat peminjaman anggota |
+**Request**
 
-Contoh request untuk menambahkan anggota:
-
-```json
-{
-  "name": "Dimas Pratama",
-  "email": "dimas@example.com",
-  "phone": "081234567890"
-}
+```http
+POST /loans
+Content-Type: application/json
 ```
 
-### Loans
-
-| Method | Endpoint | Keterangan |
-|---|---|---|
-| GET | `/loans` | Mendapatkan daftar peminjaman |
-| GET | `/loans/:id` | Mendapatkan detail peminjaman |
-| POST | `/loans` | Membuat peminjaman |
-| PUT | `/loans/:id` | Mengubah tanggal jatuh tempo |
-| PATCH | `/loans/:id/return` | Mengembalikan buku |
-| DELETE | `/loans/:id` | Menghapus data peminjaman sesuai aturan |
-
-Contoh request peminjaman:
+**Request Body**
 
 ```json
 {
@@ -246,106 +102,136 @@ Contoh request peminjaman:
 }
 ```
 
-Contoh mengembalikan buku:
+**Contoh Response Berhasil**
 
-```http
-PATCH /loans/1/return
+```json
+{
+  "message": "Peminjaman berhasil dibuat",
+  "data": {
+    "id": 1,
+    "member_id": 1,
+    "book_id": 1,
+    "due_date": "2026-10-20",
+    "status": "Dipinjam"
+  }
+}
 ```
 
-Contoh filter berdasarkan status:
+*Catatan: Bentuk response aktual mengikuti implementasi controller API.*
+
+### C. Memfilter Peminjaman Terlambat
+
+**Request**
 
 ```http
 GET /loans?status=Terlambat
 ```
 
-Filter tersebut menampilkan peminjaman yang sudah melewati tanggal jatuh tempo dan belum dikembalikan, meskipun status yang tersimpan di database masih `Dipinjam`.
+Request tersebut digunakan untuk mendapatkan data peminjaman yang terlambat dikembalikan, termasuk peminjaman yang tanggal jatuh temponya sudah lewat dan belum dikembalikan.
 
-Filter berdasarkan anggota:
+### D. Mengembalikan Buku
 
-```http
-GET /loans?member_id=1
-```
-
-Pagination peminjaman:
+**Request**
 
 ```http
-GET /loans?page=1&limit=10
+PATCH /loans/1/return
 ```
 
-### Dashboard
+Endpoint tersebut digunakan untuk mencatat pengembalian buku dan memperbarui stok buku secara otomatis.
 
-| Method | Endpoint | Keterangan |
-|---|---|---|
-| GET | `/dashboard` | Mendapatkan ringkasan statistik perpustakaan |
+## 4. Panduan Instalasi dan Menjalankan Secara Lokal
 
-## Contoh Pengujian API
+### Prasyarat
 
-API dapat diuji menggunakan Postman, Insomnia, atau REST Client.
+Pastikan Node.js dan npm sudah terpasang di komputer serta tersedia project Supabase.
 
-Contoh pengujian daftar buku:
+### Langkah Instalasi
 
-```http
-GET http://localhost:3000/books
+**1. Clone repository**
+
+```bash
+git clone https://github.com/USERNAME/library-api.git
+cd library-api
 ```
 
-Contoh pengujian daftar anggota:
+Ganti URL tersebut dengan URL repository GitHub proyek yang sebenarnya.
 
-```http
-GET http://localhost:3000/members
+**2. Instal dependensi**
+
+```bash
+npm install
 ```
 
-Contoh pengujian peminjaman terlambat:
+**3. Konfigurasi environment variables**
 
-```http
-GET http://localhost:3000/loans?status=Terlambat
+Buat file `.env` pada direktori utama proyek.
+
+```env
+SUPABASE_URL=https://YOUR_PROJECT_REF.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=YOUR_SERVER_SECRET_KEY
+PORT=3000
 ```
 
-Contoh pengujian dashboard:
+Sesuaikan nilai tersebut dengan konfigurasi Supabase milik kamu. Jangan mengunggah file `.env` ke GitHub.
 
-```http
-GET http://localhost:3000/dashboard
+**4. Siapkan database**
+
+Buka SQL Editor pada dashboard Supabase, kemudian jalankan SQL untuk membuat tabel `books`, `members`, dan `loans`, function peminjaman dan pengembalian, serta data awal jika diperlukan.
+
+**5. Jalankan aplikasi**
+
+Mode development:
+
+```bash
+npm run dev
 ```
 
-Untuk request `POST` dan `PUT` yang menggunakan JSON, sertakan header berikut:
+Atau mode biasa:
 
-```http
-Content-Type: application/json
+```bash
+npm start
 ```
 
-## Deployment ke Vercel
-
-1. Pastikan project sudah tersimpan di repository GitHub.
-2. Buka [Vercel](https://vercel.com/) dan impor repository project.
-3. Tambahkan environment variables `SUPABASE_URL` dan `SUPABASE_SERVICE_ROLE_KEY` melalui pengaturan project Vercel.
-4. Pastikan file `vercel.json` sudah tersedia dan sesuai dengan konfigurasi project.
-5. Lakukan deployment.
-6. Uji endpoint API menggunakan URL deployment yang diberikan Vercel.
-
-Contoh URL setelah deployment:
+Jika berhasil, API lokal dapat diakses melalui:
 
 ```text
-https://nama-project.vercel.app
+http://localhost:3000
 ```
 
-Contoh endpoint production:
+### Daftar Endpoint
+
+| Method | Endpoint | Fungsi |
+|---|---|---|
+| GET | `/books` | Mendapatkan daftar buku |
+| GET | `/books/:id` | Mendapatkan detail buku |
+| POST | `/books` | Menambahkan buku |
+| PUT | `/books/:id` | Mengubah data buku |
+| DELETE | `/books/:id` | Menghapus buku |
+| GET | `/members` | Mendapatkan daftar anggota |
+| GET | `/members/:id` | Mendapatkan detail anggota |
+| POST | `/members` | Menambahkan anggota |
+| GET | `/members/:id/loans` | Melihat riwayat peminjaman |
+| GET | `/loans` | Mendapatkan daftar peminjaman |
+| GET | `/loans/:id` | Mendapatkan detail peminjaman |
+| POST | `/loans` | Membuat peminjaman |
+| PUT | `/loans/:id` | Mengubah tanggal jatuh tempo |
+| PATCH | `/loans/:id/return` | Mengembalikan buku |
+| DELETE | `/loans/:id` | Menghapus data peminjaman |
+| GET | `/dashboard` | Mendapatkan statistik perpustakaan |
+
+## 5. Link Deployment Vercel
+
+**URL Deployment:** [Masukkan URL Vercel proyek kamu di sini](https://vercel.com/)
+
+Setelah deployment berhasil, API dapat diakses melalui URL Vercel yang diberikan. Contoh endpoint production:
 
 ```http
-GET https://nama-project.vercel.app/books
-GET https://nama-project.vercel.app/members
-GET https://nama-project.vercel.app/loans?status=Terlambat
-GET https://nama-project.vercel.app/dashboard
+GET https://NAMA-PROJECT.vercel.app/books
+GET https://NAMA-PROJECT.vercel.app/members
+GET https://NAMA-PROJECT.vercel.app/loans
+GET https://NAMA-PROJECT.vercel.app/loans?status=Terlambat
+GET https://NAMA-PROJECT.vercel.app/dashboard
 ```
 
-Ganti `nama-project.vercel.app` dengan URL deployment yang sebenarnya.
+Ganti `NAMA-PROJECT.vercel.app` dengan domain deployment yang sebenarnya.
 
-## Catatan Keamanan
-
-- Jangan menyimpan secret key di repository publik.
-- Gunakan environment variables untuk konfigurasi database.
-- Validasi input sebelum melakukan operasi database.
-- Batasi akses database dan endpoint sesuai kebutuhan aplikasi.
-- Jika API akan digunakan secara publik, tambahkan autentikasi dan otorisasi sebelum digunakan untuk data nyata.
-
-## Lisensi
-
-Project ini dibuat untuk keperluan pembelajaran dan responsi pengembangan REST API.
