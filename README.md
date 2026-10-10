@@ -61,83 +61,19 @@ Relasi database menghubungkan tabel `members` dan `books` dengan tabel `loans` m
 
 ### A. Mendapatkan Daftar Buku
 
-**Request**
-
-```http
-GET /books
-```
-
-**Contoh Response**
-
-```json
-{
-  "data": [
-    {
-      "id": 1,
-      "title": "Laskar Pelangi",
-      "author": "Andrea Hirata",
-      "category": "Novel",
-      "total_stock": 5
-    }
-  ]
-}
-```
+<img width="1266" height="841" alt="image" src="https://github.com/user-attachments/assets/d987a063-4d3f-4c6e-9b76-d4c67c33593a" />
 
 ### B. Membuat Peminjaman Buku
 
-**Request**
-
-```http
-POST /loans
-Content-Type: application/json
-```
-
-**Request Body**
-
-```json
-{
-  "member_id": 1,
-  "book_id": 1,
-  "due_date": "2026-10-20"
-}
-```
-
-**Contoh Response Berhasil**
-
-```json
-{
-  "message": "Peminjaman berhasil dibuat",
-  "data": {
-    "id": 1,
-    "member_id": 1,
-    "book_id": 1,
-    "due_date": "2026-10-20",
-    "status": "Dipinjam"
-  }
-}
-```
-
-*Catatan: Bentuk response aktual mengikuti implementasi controller API.*
+<img width="1272" height="845" alt="Screenshot 2026-10-10 172825" src="https://github.com/user-attachments/assets/1805b480-9547-4f2d-860a-387729ec4b2b" />
 
 ### C. Memfilter Peminjaman Terlambat
 
-**Request**
-
-```http
-GET /loans?status=Terlambat
-```
-
-Request tersebut digunakan untuk mendapatkan data peminjaman yang terlambat dikembalikan, termasuk peminjaman yang tanggal jatuh temponya sudah lewat dan belum dikembalikan.
+<img width="1267" height="837" alt="image" src="https://github.com/user-attachments/assets/cb8a79a8-89b3-449a-9797-60f0ef59041f" />
 
 ### D. Mengembalikan Buku
 
-**Request**
-
-```http
-PATCH /loans/1/return
-```
-
-Endpoint tersebut digunakan untuk mencatat pengembalian buku dan memperbarui stok buku secara otomatis.
+<img width="1281" height="823" alt="image" src="https://github.com/user-attachments/assets/53a9c0d3-619f-4834-b53a-dd6943d9136f" />
 
 ## 4. Panduan Instalasi dan Menjalankan Secara Lokal
 
