@@ -157,17 +157,14 @@ http://localhost:3000
 
 ## 5. Link Deployment Vercel
 
-**URL Deployment:** [Masukkan URL Vercel proyek kamu di sini](https://vercel.com/)
+https://dimas-responsi-modul-1-kel-31.vercel.app
 
 Setelah deployment berhasil, API dapat diakses melalui URL Vercel yang diberikan. Contoh endpoint production:
 
 ```http
-GET https://NAMA-PROJECT.vercel.app/books
-GET https://NAMA-PROJECT.vercel.app/members
-GET https://NAMA-PROJECT.vercel.app/loans
-GET https://NAMA-PROJECT.vercel.app/loans?status=Terlambat
-GET https://NAMA-PROJECT.vercel.app/dashboard
+GET https://dimas-responsi-modul-1-kel-31.vercel.app/books
+GET https://dimas-responsi-modul-1-kel-31.vercel.app/members
+GET https://dimas-responsi-modul-1-kel-31.vercel.app/loans
+GET https://dimas-responsi-modul-1-kel-31.vercel.app/loans?status=Terlambat
+GET https://dimas-responsi-modul-1-kel-31.vercel.app/dashboard
 ```
-
-Ganti `NAMA-PROJECT.vercel.app` dengan domain deployment yang sebenarnya.
-
