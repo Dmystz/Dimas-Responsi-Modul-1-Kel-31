@@ -1,19 +1,29 @@
-import express from "express";
-import dotenv from "dotenv";
-import categoryRoutes from "./routes/categoryRoutes.js";
-import productRoutes from "./routes/productRoutes.js";
-import customerRoutes from "./routes/customerRoutes.js";
-
-dotenv.config();
+import express from 'express';
+import loanRoutes from './routes/loanRoutes.js';
 
 const app = express();
+
 app.use(express.json());
 
-app.use("/api/categories", categoryRoutes);
-app.use("/api/products", productRoutes);
-app.use("/api/customers", customerRoutes);
-
-const port = process.env.PORT || 3000;
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
+app.get('/', (req, res) => {
+    res.status(200).json({
+        message: 'Library Loans REST API',
+        endpoints: {
+            loans: '/loans',
+            filter: '/loans?status=Terlambat'
+        }
+    });
 });
+
+app.use('/loans', loanRoutes);
+
+export default app;
+
+// Menjalankan server lokal
+if (process.env.NODE_ENV !== 'production') {
+    const PORT = process.env.PORT || 3000;
+
+    app.listen(PORT, () => {
+        console.log(`Server berjalan di http://localhost:${PORT}`);
+    });
+}
